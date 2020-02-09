@@ -1,0 +1,77 @@
+﻿@model PurchaseViewModel
+@{
+    ViewData["Title"] = "Kup teraz";
+}
+
+<h1>Kup teraz</h1>
+
+<div class="container">
+    <div class="text-center">
+
+        <div class="shopItem my-4">
+            <div class="row my-3">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-4 my-auto">
+                    <h2>@ViewBag.itemToBuy.Manufacturer</h2>
+                    <h4>@ViewBag.itemToBuy.Model</h4>
+                    <h4>Cena: @ViewBag.itemToBuy.Price zł</h4>
+                </div>
+                <div class="col-sm-4">
+                    <img class="mw-100" src="@Url.Content(ViewBag.itemToBuy.Photo)" alt="@ViewBag.itemToBuy.Model" />
+                </div>
+                <div class="col-sm-2"></div>
+            </div>
+            <hr />
+        </div>
+
+        @using (Html.BeginForm("BuyNow", "Cart",  new { 
+            Manufacturer = ViewBag.itemToBuy.Manufacturer,
+            Model = ViewBag.itemToBuy.Model,
+            Price = ViewBag.itemToBuy.Price,
+            Photo = "nothing"
+         }, FormMethod.Post))
+        {
+            @Html.AntiForgeryToken();
+
+            <!-- Imię -->
+            <div class="form-horizontal row">
+                <div class="col-3"></div>
+                @Html.LabelFor(model => model.Name, new { @class = "text-right control-label col-md-2" })
+                <div class="col-md-4 text-left">
+                    @Html.EditorFor(model => model.Name, new { @class = "form-control" })
+                </div>
+                <div class="col-3"></div>
+            </div>
+
+            <!-- Nazwisko -->
+            <div class="form-horizontal row">
+                <div class="col-3"></div>
+                @Html.LabelFor(model => model.LastName, new { @class = "text-right control-label col-md-2" })
+                <div class="col-md-4 text-left">
+                    @Html.EditorFor(model => model.LastName, new { @class = "form-control" })
+                </div>
+                <div class="col-3"></div>
+            </div>
+
+            <!-- Adres email -->
+            <div class="form-horizontal row">
+                <div class="col-3"></div>
+                @Html.LabelFor(model => model.EmailAddress, new { @class = "text-right control-label col-md-2" })
+                <div class="col-md-4  text-left">
+                    @Html.EditorFor(model => model.EmailAddress, new { @class = "form-control" })
+                </div>
+                <div class="col-3"></div>
+            </div>
+
+            <!-- Cena-->
+            <h1 class="text-center font my-4">Cena: @ViewBag.itemToBuy.Price PLN</h1>
+
+            <!-- Przycisk zatwierdzający wprowadzone dane -->
+            <div class="form-group text-center">
+                <input type="submit" value="Kup teraz" class="btn btn-success" />
+            </div>
+        }
+
+
+    </div>
+</div>

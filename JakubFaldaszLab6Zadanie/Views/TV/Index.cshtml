@@ -1,0 +1,68 @@
+﻿@model List<ElectronicDeviceViewModel>
+@{
+    ViewData["Title"] = "Telewizory";
+}
+
+<h1 class="text-center">Telewizory</h1>
+<div class="container">
+    <div class="text-center">
+
+        @foreach (var tv in Model)
+        {
+            <div class="shopItem my-4">
+                <div class="row">
+                    <div class="col-sm-2"></div>
+                    <div class="col-sm-4 my-auto">
+                        <h2>@tv.Manufacturer</h2>
+                        <h4>@tv.Model</h4>
+                        <h4>Cena: @tv.Price zł</h4>
+                    </div>
+                    <div class="col-sm-4">
+                        <img class="mw-100" src="@Url.Content(tv.Photo)" alt="@tv.Photo" />
+                    </div>
+                    <div class="col-sm-2"></div>
+                </div>
+
+                @{string link = "#";}
+                @switch (tv.Manufacturer)
+                {
+                    case "Samsung":
+                        link = "https://www.samsung.com/uk/tvs/uhd-ju6400/UE60JU6400KXXU/";
+                        break;
+                    case "LG":
+                        link = "https://www.lg.com/us/tvs/lg-65UJ6300-4k-uhd-tv";
+                        break;
+                    case "Sony":
+                        link = "https://www.sony.co.uk/electronics/support/televisions-projectors-lcd-tvs/kdl-55w905a/specifications";
+                        break;
+                }
+                <div class="btn-group text-center my-4">
+                    <button class="nav-buttons btn btn-primary btn-lg">
+                        @Html.ActionLink("Kup teraz", "PassToCartController", "TV", new
+                        {
+                                                                      Manufacturer = tv.Manufacturer,
+                                                                      Model = tv.Model,
+                                                                      Price = tv.Price,
+                                                                      Photo = tv.Photo
+                                                                  }, null)
+                    </button>
+
+                    <button class="nav-buttons btn btn-primary btn-lg">
+                        @Html.ActionLink("Dodaj do koszyka", "AddToCart", "Cart", new
+                        {
+                                                                          Manufacturer = tv.Manufacturer,
+                                                                          Model = tv.Model,
+                                                                          Price = tv.Price,
+                                                                          Photo = tv.Photo
+                                                                      }, null)
+                    </button>
+                    <button class="nav-buttons btn btn-primary btn-lg"><a href="@link">Specyfikacja</a></button>
+                </div>
+                <hr />
+            </div>
+        }
+
+    </div>
+</div>
+
+

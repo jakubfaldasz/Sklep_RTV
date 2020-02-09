@@ -1,0 +1,71 @@
+﻿@model List<ElectronicDeviceViewModel>
+@{
+    ViewData["Title"] = "Telefony";
+}
+
+<h1 class="text-center">Smartfony</h1>
+<div class="container">
+    <div class="text-center">
+
+        @foreach (var phone in Model)
+        {
+            <div class="shopItem my-4">
+                <div class="row">
+                    <div class="col-sm-2"></div>
+                    <div class="col-sm-4 my-auto">
+                        <h2>@phone.Manufacturer</h2>
+                        <h4>@phone.Model</h4>
+                        <h4>Cena: @phone.Price zł</h4>
+                    </div>
+                    <div class="col-sm-4">
+                        <img class="mw-100" src="@Url.Content(phone.Photo)" alt="@phone.Photo" />
+                    </div>
+                    <div class="col-sm-2"></div>
+                </div>
+
+                @{string link = "#";}
+                @switch (phone.Manufacturer)
+                {
+                    case "Samsung":
+                        link = "https://www.mgsm.pl/pl/katalog/samsung/galaxys10/";
+                        break;
+                    case "Apple":
+                        link = "https://www.mgsm.pl/pl/katalog/apple/iphone11pro/";
+                        break;
+                    case "Huawei":
+                        link = "https://www.mgsm.pl/pl/katalog/huawei/p30pro/";
+                        break;
+                    case "Xiaomi":
+                        link = "https://www.mgsm.pl/pl/katalog/xiaomi/mi9/";
+                        break;
+                }
+                <div class="btn-group text-center my-4">
+                    <button class="nav-buttons btn btn-primary btn-lg">
+                        @Html.ActionLink("Kup teraz", "PassToCartController", "CellPhones", new
+                        {
+                                                                      Manufacturer = phone.Manufacturer,
+                                                                      Model = phone.Model,
+                                                                      Price = phone.Price,
+                                                                      Photo = phone.Photo
+                                                                  }, null)
+                    </button>
+
+                    <button class="nav-buttons btn btn-primary btn-lg">
+                        @Html.ActionLink("Dodaj do koszyka", "AddToCart", "Cart", new
+                        {
+                                                                          Manufacturer = phone.Manufacturer,
+                                                                          Model = phone.Model,
+                                                                          Price = phone.Price,
+                                                                          Photo = phone.Photo
+                                                                      }, null)
+                    </button>
+                    <button class="nav-buttons btn btn-primary btn-lg"><a href="@link">Specyfikacja</a></button>
+                </div>
+                <hr />
+            </div>
+        }
+
+    </div>
+</div>
+
+

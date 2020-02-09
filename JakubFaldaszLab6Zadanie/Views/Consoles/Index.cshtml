@@ -1,0 +1,68 @@
+﻿@model List<ElectronicDeviceViewModel>
+@{
+    ViewData["Title"] = "Konsole";
+}
+
+<h1 class="text-center">Konsole</h1>
+<div class="container">
+    <div class="text-center">
+
+        @foreach (var console in Model)
+        {
+            <div class="shopItem my-4">
+                <div class="row">
+                    <div class="col-sm-2"></div>
+                    <div class="col-sm-4 my-auto">
+                        <h2>@console.Manufacturer</h2>
+                        <h4>@console.Model</h4>
+                        <h4>Cena: @console.Price zł</h4>
+                    </div>
+                    <div class="col-sm-4">
+                        <img class="mw-100" src="@Url.Content(console.Photo)" alt="@console.Photo" />
+                    </div>
+                    <div class="col-sm-2"></div>
+                </div>
+
+                @{string link = "#";}
+                @switch (console.Manufacturer)
+                {
+                    case "Sony":
+                        link = "https://www.playstation.com/pl-pl/explore/ps4/tech-specs/";
+                        break;
+                    case "Microsoft":
+                        link = "https://www.xbox.com/en-US/consoles/xbox-one-x";
+                        break;
+                    case "Nintendo":
+                        link = "https://www.nintendo.com/switch/tech-specs/";
+                        break;
+                }
+                <div class="btn-group text-center my-4">
+                    <button class="nav-buttons btn btn-primary btn-lg">
+                        @Html.ActionLink("Kup teraz", "PassToCartController", "Consoles", new
+                        {
+                                                                      Manufacturer = console.Manufacturer,
+                                                                      Model = console.Model,
+                                                                      Price = console.Price,
+                                                                      Photo = console.Photo
+                                                                  }, null)
+                    </button>
+
+                    <button class="nav-buttons btn btn-primary btn-lg">
+                        @Html.ActionLink("Dodaj do koszyka", "AddToCart", "Cart", new
+                        {
+                                                                          Manufacturer = console.Manufacturer,
+                                                                          Model = console.Model,
+                                                                          Price = console.Price,
+                                                                          Photo = console.Photo
+                                                                      }, null)
+                    </button>
+                    <button class="nav-buttons btn btn-primary btn-lg"><a href="@link">Specyfikacja</a></button>
+                </div>
+                <hr />
+            </div>
+        }
+
+    </div>
+</div>
+
+
